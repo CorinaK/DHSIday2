@@ -1,0 +1,22 @@
+#__PlayParser__
+#Input: file with plays
+#Output: play objects
+# --> send to engine
+
+
+#__Engine__
+# Goes through data structure and transform it into something for the CSV-file
+# which means Dictionary that contains play title, act, scene, dialogue, repetition
+#Input: string
+#Output: list of strings
+# --> send to repetition counter
+#When all done, send to CSV writer
+
+
+#__RepetitionCounter__
+#Input: list of strings
+#Output: ??? --> send back to engine
+#Contains: tokenizer and rep counter
+
+
+#__CSVWriter__
