@@ -22,5 +22,6 @@ class LineOfDialogueParser(object):
         if new_line_of_dialogue_results is None:
             cleaned_text = line.strip()
             self.dialogue.lines.append(cleaned_text)
+            return self
         else:
-            pass
+            return self.parent.parse(line)

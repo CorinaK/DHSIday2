@@ -6,7 +6,7 @@ from src.parser.LineOfDialogueParser import LineOfDialogueParser
 
 class LineOfDialogueParserTests(unittest.TestCase):
     def test_create_new_line_of_dialogue_recognizes_parent_and_dialogue_components(self):
-        scene_parser = SceneParser()
+        scene_parser = SceneParser(None, 'SCENE 2.')
         text = '  FIRST LORD. Our remedies oft in ourselves do lie,'
         parser = LineOfDialogueParser(
             scene_parser, text
@@ -24,7 +24,7 @@ class LineOfDialogueParserTests(unittest.TestCase):
         )
 
     def test_add_new_line_of_text_appends_to_existing_dialogue(self):
-        scene_parser = SceneParser()
+        scene_parser = SceneParser(None, 'SCENE 2.')
         text = '  HELENA. Our remedies oft in ourselves do lie,'
         parser = LineOfDialogueParser(
             scene_parser, text
@@ -38,7 +38,7 @@ class LineOfDialogueParserTests(unittest.TestCase):
         )
 
     def test_add_additional_lines_appends_to_current_dialogue(self):
-        scene_parser = SceneParser()
+        scene_parser = SceneParser(None, 'SCENE 2.')
         text = '  HELENA. Our remedies oft in ourselves do lie,'
         parser = LineOfDialogueParser(
             scene_parser, text
@@ -54,14 +54,14 @@ class LineOfDialogueParserTests(unittest.TestCase):
         )
 
     def test_that_handles_new_character_name(self):
-        scene_parser = SceneParser()
+        scene_parser = SceneParser(None, 'SCENE 2.')
         text = '  HELENA. Our remedies oft in ourselves do lie,'
         parser = LineOfDialogueParser(
             scene_parser, text
         )
         parser.parse('    Which we ascribe to heaven. The fated sky')
         parser.parse('    Gives us free scope; only doth backward pull')
-        parser.parse('  PAROLLES. I am so full of business I cannot answer thee acutely. I')
+        next_parser = parser.parse('  PAROLLES. I am so full of business I cannot answer thee acutely. I')
         self.assertEqual(
             parser.dialogue.lines, [
                 'Our remedies oft in ourselves do lie,',
@@ -69,4 +69,9 @@ class LineOfDialogueParserTests(unittest.TestCase):
                 'Gives us free scope; only doth backward pull',
             ]
         )
-        # TODO Implement handling creation of new line of dialogue parser
+        self.assertEqual(
+            next_parser, scene_parser
+        )
+
+# Still need to handle: 'Exit' within dialogue
+# Still need to handle: Stage directions in dialogue
